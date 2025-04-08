@@ -34,7 +34,7 @@ export default async function Home() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-3 gap-5 px-14 pt-20">
+      <div className="grid md:grid-cols-3 sm:grid-cols-2 gap-5 px-14 pt-20">
         {rooms.map((room)=>(
             <div key={room.id} className="mr-2 mt-2"><RoomCardDisplay roomData={room}/></div>
         ))}
@@ -49,17 +49,19 @@ export default async function Home() {
 
 function RoomCardDisplay({roomData}: {roomData : Room}){
   return (
-      <Card>
+      <Card className="overflow-hidden">
         <CardHeader>
-          <CardTitle>{roomData.name}</CardTitle>
-          <CardDescription>{roomData.description}</CardDescription>
+          <CardTitle className="text-xl pb-2">{roomData.name}</CardTitle>
+          <CardDescription className="md:h-20 overflow-hidden sm:h-22">{roomData.description}</CardDescription>
         </CardHeader>
-        <CardContent >
-          <p className="flex items-center"><Github className="mr-2"/> {roomData.GithubRepo}</p>
-        </CardContent>
-        <CardFooter>
-          <Button><Link href={`rooms/${roomData.id}`}>Join Room</Link></Button>
-        </CardFooter>
+        <div className="flex md:justify-between px-2 md:flex-row sm:flex-column flex-wrap items-center">
+          {roomData.GithubRepo && <CardContent  >
+            <p className="flex items-center"><Github className="mr-2"/><Link href={`${roomData.GithubRepo}`} legacyBehavior><a rel="noopener noreferrer" target="_blank" className="border-b border-gray-500 hover:border-black sm:mb-1 md:mb-0">GitHub</a></Link></p>
+          </CardContent>}
+          <CardFooter>
+            <Button><Link href={`rooms/${roomData.id}`}>Join Room</Link></Button>
+          </CardFooter>
+        </div>
     </Card>
   )
 }
