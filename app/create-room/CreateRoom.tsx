@@ -16,20 +16,21 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { CreateRoomAction } from "./actions"
-import { useRouter } from "next/navigation"
 import { useState } from "react"
+import LoadingSpinner from "./loading"
+import { useRouter } from "next/navigation"
 
 const formSchema = z.object({
   name: z.string().min(2).max(50),
-  description: z.string().min(1).max(240),
+  description: z.string().min(1),
   language : z.string().min(1).max(50),
   GithubRepo : z.string().optional()
 })
 
 
 export function CreateRoomForm(){
-  const router = useRouter();
-  const [loading, setLoading] = useState(false); 
+  const [loading, setLoading] = useState(false);
+  const router = useRouter()
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -43,12 +44,13 @@ export function CreateRoomForm(){
  
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    // Create Room in the db using server actions
+    // e.preventDefault()
     setLoading(true);
+    // Create Room in the db using server actions
     // @ts-ignore
-    await CreateRoomAction(values)
+    await CreateRoomAction(values )
+    setLoading(false)
     router.push("/")
-    setLoading(false);
   }
 
   return (
@@ -118,11 +120,10 @@ export function CreateRoomForm(){
             </FormItem>
           )}
         />
-        {
-          !loading ?  
+        {!loading && 
           <Button type="submit">Submit</Button>
-          :
-          <Button>...</Button>
+        }{
+          loading && <Button><LoadingSpinner/></Button>
         }
       </form>
     </Form>

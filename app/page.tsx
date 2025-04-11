@@ -1,3 +1,5 @@
+
+
 import { Button } from "@/components/ui/button";
 import { getRooms } from "@/services/rooms";
 import Link from "next/link";
@@ -11,6 +13,7 @@ import {
 } from "@/components/ui/card"
 import { Room } from "@/db/schema";
 import { Github } from "lucide-react";
+import { splitTags, TagList } from "@/components/TagList";
 
 
 export default async function Home() {
@@ -36,7 +39,9 @@ export default async function Home() {
 
       <div className="grid md:grid-cols-3 sm:grid-cols-2 gap-5 px-14 pt-20">
         {rooms.map((room)=>(
-            <div key={room.id} className="mr-2 mt-2"><RoomCardDisplay roomData={room}/></div>
+          <>
+            <div key={room.id+Math.random()} className="mr-2 mt-2"><RoomCardDisplay roomData={room}/></div>
+            </>
         ))}
       </div>
 
@@ -52,8 +57,11 @@ function RoomCardDisplay({roomData}: {roomData : Room}){
       <Card className="overflow-hidden">
         <CardHeader>
           <CardTitle className="text-xl pb-2">{roomData.name}</CardTitle>
-          <CardDescription className="md:h-20 overflow-hidden sm:h-22">{roomData.description}</CardDescription>
+          <CardDescription className="px-4 pt-4 pb-6">{roomData.description}</CardDescription>
         </CardHeader>
+        <div className="flex items-center flex-wrap gap-2 px-4">
+          <TagList languages={splitTags(roomData.language!)}/>
+        </div>
         <div className="flex md:justify-between px-2 md:flex-row sm:flex-column flex-wrap items-center">
           {roomData.GithubRepo && <CardContent  >
             <p className="flex items-center"><Github className="mr-2"/><Link href={`${roomData.GithubRepo}`} legacyBehavior><a rel="noopener noreferrer" target="_blank" className="border-b border-gray-500 hover:border-black sm:mb-1 md:mb-0">GitHub</a></Link></p>
