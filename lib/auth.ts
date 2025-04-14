@@ -57,5 +57,5 @@
     } satisfies AuthOptions;
 
     export function getSession(){
-        return getServerSession(authOption  )
+        return getServerSession(authOption)
     }

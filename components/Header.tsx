@@ -9,7 +9,6 @@ import {
     AvatarFallback,
     AvatarImage,
   } from "@/components/ui/avatar"
-import { string } from "zod"
 import Link from "next/link"
 function AccountComponent(){
     const session = useSession()
