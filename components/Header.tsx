@@ -19,7 +19,9 @@ function AccountComponent(){
             </DropdownMenuTrigger>
             <DropdownMenuContent>
                 <DropdownMenuItem >
-                    <Button className="gap-2 flex items-center justify-between" onClick={()=>signOut()}>
+                    <Button className="gap-2 flex items-center justify-between" onClick={()=>signOut({
+                        callbackUrl : "/"
+                    })}>
                         <LogOut/>
                         Sign Out</Button>
                 </DropdownMenuItem>

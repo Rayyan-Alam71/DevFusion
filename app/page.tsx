@@ -14,9 +14,15 @@ import {
 import { Room } from "@/db/schema";
 import { Github } from "lucide-react";
 import { splitTags, TagList } from "@/components/TagList";
+import { SearchBar } from "@/components/SearchBar";
 
 
-export default async function Home() {
+export default async function Home({searchParams} : {
+  searchParams : {search : string}
+}) {
+  console.log('================================')
+  const searchQuery : string = await searchParams.search ?? '';
+  console.log(searchQuery)
   // While in production, nextJs will treat this as static and will not fetch rooms every time. 
   // run 'npm run build' => this will show whether this is static or dynamic.
   // https://nextjs.org/docs/app/api-reference/functions/connection
@@ -24,20 +30,30 @@ export default async function Home() {
 
   // const createdRooms = await db.query.room.findMany();
 
-  const rooms = await getRooms();
+  const rooms = await getRooms(searchQuery);
   return (
     <div>
       <div className="flex justify-between px-16 pt-16 w-full">
 
-        <div className="text-4xl">
+        <div className="flex flex-col space-y-2">
+          <div className="text-4xl">
           Find Your Perfect Dev Room
+          </div>
+          <div className="">
+            <SearchBar/>
+          </div>  
+          {
+            searchQuery != '' && <div> <Button asChild>
+              <Link href={"/"}>Clear Filter</Link>
+              </Button></div>
+          }
         </div>
         <Button asChild>
         <Link href={"/create-room"}> Create Room</Link>
         </Button>
       </div>
 
-      <div className="grid md:grid-cols-3 sm:grid-cols-2 gap-5 px-14 pt-20">
+      <div className="grid md:grid-cols-3 sm:grid-cols-2 gap-5 px-14 pt-20 pb-15 ">
         {rooms.map((room)=>(
           <>
             <div key={room.id+Math.random()} className="mr-2 mt-2"><RoomCardDisplay roomData={room}/></div>

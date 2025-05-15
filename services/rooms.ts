@@ -1,14 +1,28 @@
 import { db } from "@/db";
 import { room } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { eq, ilike, like, or } from "drizzle-orm";
 import { unstable_noStore } from "next/cache";
 
-export async function getRooms(){
+export async function getRooms(searchQuery : string){
     unstable_noStore();
-    const rooms = await db.query.room.findMany()
-    return rooms;
+    if(searchQuery === ''){
+        console.log("entered in empty search")
+        const rooms = await db.query.room.findMany()
+        return rooms;
+    }
+    else{
+    console.log("entered in non-empty search")
+        const rooms = await db.query.room.findMany({
+            where : or(
+                ilike(room.language , `%${searchQuery}%`),
+                ilike(room.description , `%${searchQuery}%`),
+                ilike(room.name , `%${searchQuery}%`)
+            )
+            // where : like(room.language && room.name , `%${searchQuery}%`)
+        })
+        return rooms;
+    }
 }
-
 export async function getRoomDetail(roomId : string){
     unstable_noStore();
     return await db.query.room.findFirst({
