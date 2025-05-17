@@ -51,6 +51,11 @@ export function Header(){
                     LOGO
                 </div>
                 </Link>
+                <Link href={"/my-room"}>
+                    <div className="hover:underline">
+                        Browse Rooms
+                    </div>
+                </Link>
                 <div className="flex items-center  gap-4">
                     {session.data?.user && <AccountComponent/>}
 
