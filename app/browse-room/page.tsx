@@ -10,7 +10,7 @@ import Link from "next/link";
 
 
 
-export default async function Page({ searchParams }: { searchParams: { search?: string } }) {
+export default async function Page({ searchParams }: { searchParams: Promise<{ search?: string }> }) {
   unstable_noStore()
   const searchMediator = await searchParams;
   const searchQuery: string = searchMediator.search ||  '';
