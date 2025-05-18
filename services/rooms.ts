@@ -5,7 +5,7 @@ import { unstable_noStore } from "next/cache";
 
 export async function getRooms(searchQuery : any){
     unstable_noStore();
-    if(searchQuery === undefined){
+    if(searchQuery === '' || searchQuery === undefined ){
         const rooms = await db.query.room.findMany()
         return rooms;
     }

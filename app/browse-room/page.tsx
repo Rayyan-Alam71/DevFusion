@@ -9,21 +9,16 @@ import { unstable_noStore } from "next/cache";
 import Link from "next/link";
 
 
-interface HomeProps {
-  searchParams?: {
-    search?: string;
-  };
-}
 
-export default async function Page({ searchParams }: { searchParams: Promise<{ [search: string]: string | string[] | undefined }> }) {
+export default async function Page({ searchParams }: { searchParams: { search?: string } }) {
   unstable_noStore()
-  const {search } = await searchParams
-  const searchQuery = search
+  const searchMediator = await searchParams;
+  const searchQuery: string = searchMediator.search ||  '';
   // While in production, nextJs will treat this as static and will not fetch rooms every time. 
   // run 'npm run build' => this will show whether this is static or dynamic.
   // https://nextjs.org/docs/app/api-reference/functions/connection
   // https://nextjs.org/docs/app/api-reference/functions/unstable_noStore
-
+  console.log(searchQuery)
   const rooms = await getRooms(searchQuery);
   return (
     <div>

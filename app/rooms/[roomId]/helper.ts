@@ -12,8 +12,6 @@ export const generateToken = async (userId : string) => {
     const serverClient = StreamChat.getInstance(api_key, api_secret);
     // Create User Token
     const token = serverClient.createToken(user_id);
-    console.log("--------------------------------------------------");
-    console.log(token)
     return token;
 }
 
