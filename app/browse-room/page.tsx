@@ -7,12 +7,15 @@ import { getRooms } from "@/services/rooms";
 import { Github } from "lucide-react";
 import Link from "next/link";
 
-export default async function Home({searchParams} : {
-  searchParams : {search : string}
-}) {
+interface HomeProps {
+  searchParams?: {
+    search?: string;
+  };
+}
 
-  const searchFetched = await searchParams;
-  const searchQuery : string =  searchFetched?.search || '';
+export default async function Home({searchParams} : HomeProps) {
+
+  const searchQuery = searchParams?.search || "";
   // While in production, nextJs will treat this as static and will not fetch rooms every time. 
   // run 'npm run build' => this will show whether this is static or dynamic.
   // https://nextjs.org/docs/app/api-reference/functions/connection
