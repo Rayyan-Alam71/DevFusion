@@ -49,11 +49,11 @@ export function SearchBar(){
     //   router.push(`/?search=${values.search}`)
     // }
     if(values.search != ''){
-      router.push(`/?search=${values.search}`)
+      router.push(`/browse-room/?search=${values.search}`)
       return
     }
     else{
-      router.push('/');
+      router.push('/browse-room');
       return
     }
   }

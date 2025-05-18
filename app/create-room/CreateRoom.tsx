@@ -50,7 +50,7 @@ export function CreateRoomForm(){
     // @ts-ignore
     await CreateRoomAction(values )
     setLoading(false)
-    router.push("/")
+    router.push("/browse-room")
   }
 
   return (

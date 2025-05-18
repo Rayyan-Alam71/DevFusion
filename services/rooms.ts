@@ -6,12 +6,10 @@ import { unstable_noStore } from "next/cache";
 export async function getRooms(searchQuery : string){
     unstable_noStore();
     if(searchQuery === ''){
-        console.log("entered in empty search")
         const rooms = await db.query.room.findMany()
         return rooms;
     }
     else{
-    console.log("entered in non-empty search")
         const rooms = await db.query.room.findMany({
             where : or(
                 ilike(room.language , `%${searchQuery}%`),
