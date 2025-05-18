@@ -5,7 +5,9 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Room } from "@/db/schema";
 import { getRooms } from "@/services/rooms";
 import { Github } from "lucide-react";
+import { unstable_noStore } from "next/cache";
 import Link from "next/link";
+
 
 interface HomeProps {
   searchParams?: {
@@ -13,15 +15,14 @@ interface HomeProps {
   };
 }
 
-export default async function Home({searchParams} : HomeProps) {
-
-  const searchQuery = searchParams?.search || "";
+export default async function Page({ searchParams }: { searchParams: Promise<{ [search: string]: string | string[] | undefined }> }) {
+  unstable_noStore()
+  const {search } = await searchParams
+  const searchQuery = search
   // While in production, nextJs will treat this as static and will not fetch rooms every time. 
   // run 'npm run build' => this will show whether this is static or dynamic.
   // https://nextjs.org/docs/app/api-reference/functions/connection
   // https://nextjs.org/docs/app/api-reference/functions/unstable_noStore
-
-  // const createdRooms = await db.query.room.findMany();
 
   const rooms = await getRooms(searchQuery);
   return (
