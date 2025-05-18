@@ -2,6 +2,7 @@ import { db } from "@/db";
 import { room } from "@/db/schema";
 import { eq, ilike, like, or } from "drizzle-orm";
 import { unstable_noStore } from "next/cache";
+import { string } from "zod";
 
 export async function getRooms(searchQuery : any){
     unstable_noStore();
@@ -21,7 +22,7 @@ export async function getRooms(searchQuery : any){
         return rooms;
     }
 }
-export async function getRoomDetail(roomId : string){
+export async function getRoomDetail(roomId :any){
     unstable_noStore();
     return await db.query.room.findFirst({
         where: eq(room.id , roomId)

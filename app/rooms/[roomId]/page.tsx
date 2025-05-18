@@ -5,9 +5,9 @@ import { Badge } from "@/components/ui/badge"
 import { DevFinderVideo } from "./stream-video";
 
 
-export default async function Page({ params } : {params : {roomId : string}}) {
+export default async function Page({ params } : { params : Promise<{roomId : string}> }) {
     // asynchronous access of `params.id`.
-    const { roomId} = await params;
+    const { roomId } = await params;
     const roomDetail = await getRoomDetail(roomId);
     const languages = roomDetail?.language?.split(",").map((lang)=>lang.trim())
     if(!roomDetail){
